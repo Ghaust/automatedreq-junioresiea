@@ -5,17 +5,12 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 import time
 
-#def goto_signinpage(driver):
-#    try:
-#        driver.find_element_by_class("sign-in-card__dismiss-btn").click()
-#    except:
-#        print(driver)
-        
+
 def log_into_linkedin(driver):
     username = driver.find_element_by_id('username')
     username.send_keys("junior-esiea@et.esiea.fr")
     password = driver.find_element_by_id('password')
-    password.send_keys(unicode("passwordstillfakebecauseofsecurity", 'utf-8')) #
+    password.send_keys(unicode("passwordstillfakebecauseofsecurity", 'utf-8')) 
     password.send_keys(Keys.RETURN)
     print('connection successful')
 
@@ -24,7 +19,6 @@ def searchSomeone(driver, name):
     search = driver.find_element_by_class_name('search-global-typeahead__input')
     search.send_keys(name)
     search.send_keys(Keys.RETURN)
-    search.send_keys("tamere")
     print('search step')
     
 def addAlumni(driver):
@@ -37,7 +31,7 @@ def addAlumni(driver):
         
         addNote_button = driver.find_element_by_xpath('//button[@aria-label="Ajouter une note"]')
         addNote_button.click()
-        message = "Junior ESIEA bot used to create the Alumni group. We sent you a friend request because you were a member of Junior ESIEA or PIER, the small entreprise of the engineering school ESIEA."
+        message = "Junior ESIEA bot used to create the Alumni group. You will be able to reconnect with your old friends, network and keep track on our JE. We sent you a request because you were a member of Junior ESIEA or PIER at ESIEA. If you have never belonged to these  associations, please ignore this message."
 
         textarea = driver.find_element_by_xpath('//textarea[@id="custom-message"]')
         textarea.send_keys(message)
@@ -45,17 +39,20 @@ def addAlumni(driver):
         sendText_button = driver.find_element_by_xpath('//button[@class="ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view"]')
         sendText_button.click()
         print("message sent")
-        #print(sendText_button.get_attribute('outerHTML'))
+        
     except:
         print("request already sent or alumni already in your network")
    
 def readAlumns(filename, driver):
+    alumn_number = 0
     alumnis = open(filename, 'r')
     for alumni in alumnis:
+        alumn_number+=1
         searchSomeone(driver, unicode(alumni,'utf-8'))
         time.sleep(5)
         addAlumni(driver)
         driver.get('https://www.linkedin.com/mynetwork/')
+    print("we have successfully added "+ alumn_number + " to the group !")
     
 def main():
     url = "https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin"
