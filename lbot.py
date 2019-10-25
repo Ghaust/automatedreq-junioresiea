@@ -16,7 +16,7 @@ def log_into_linkedin(driver):
     username = driver.find_element_by_id('username')
     username.send_keys("junior-esiea@et.esiea.fr")
     password = driver.find_element_by_id('password')
-    password.send_keys("fakepasswordbecauseofsecurity")
+    password.send_keys(unicode("passwordstillfakebecauseofsecurity", 'utf-8'))
     password.send_keys(Keys.RETURN)
     print('connection successful')
 
@@ -34,21 +34,20 @@ def addAlumni(driver):
         time.sleep(2)
         #endInvit_button = driver.find_element_by_xpath('//button[@class="ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view"]')
         #endInvit_button.click()
-        print("alumni successfully added")
+        print("invitation sent")
         
         time.sleep(2)
         addNote_button = driver.find_element_by_xpath('//button[@aria-label="Ajouter une note"]')
         addNote_button.click()
         message = "Junior ESIEA bot used to create the Alumni group. We sent you a friend request because you were a member of Junior ESIEA or PIER, the small entreprise of the engineering school ESIEA."
 
-        #time.sleep(2)
         textarea = driver.find_element_by_xpath('//textarea[@id="custom-message"]')
         textarea.send_keys(message)
         
-        time.sleep(5)
-        sendText_button = driver.find_element_by_xpath('//button[@arial-label="Terminé"]')
+        sendText_button = driver.find_element_by_xpath('//button[@class="ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view"]')
         sendText_button.click()
-        print(sendText_button.get('outerHTML'))
+        print("message sent")
+        #print(sendText_button.get_attribute('outerHTML'))
     except:
         print("request already sent or alumni already in your network")
    
